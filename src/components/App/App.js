@@ -16,7 +16,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import LandingPage from '../LandingPage/LandingPage'
 import CourseCatalog from '../CourseCatalog/CourseCatalog';
 import Dashboard from '../Dashboard/Dashboard';
-import InfoPage from '../InfoPage/InfoPage';
+import TreeView from '../TreeView/TreeView';
+import Admin from '../Admin/Admin';
 
 import './App.css';
 
@@ -60,10 +61,16 @@ class App extends Component {
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
+
             <ProtectedRoute
               exact
-              path="/info"
-              component={InfoPage}
+              path="/admin"
+              component={Admin}
+            />
+            <ProtectedRoute
+              exact
+              path="/tree"
+              component={TreeView}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />

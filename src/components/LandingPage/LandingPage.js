@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import Nav from '../Nav/Nav';
+
+
 class LandingPage extends Component{
     render(){
         return(
             <>
-            <Nav />
+            <Nav history={this.props.history}/>
             </>
         )
     }

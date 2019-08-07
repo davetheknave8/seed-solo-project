@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class SuggestedLessons extends Component {
+class SubcategoryItem extends Component{
     render(){
         return(
             <>
@@ -9,4 +9,4 @@ class SuggestedLessons extends Component {
     }
 }
 
-export default SuggestedLessons;
+export default SubcategoryItem;

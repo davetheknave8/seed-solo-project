@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import UserTrees from '../UserTrees/UserTrees';
 import UserLessons from '../UserLessons/UserLessons';
 import RecentTree from '../RecentTree/RecentTree';
+import SuggestedLessons from '../SuggestedLessons/SuggestedLessons';
 
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import Drawer from '@material-ui/core/Drawer';
 import {withStyles} from '@material-ui/core/styles';
@@ -30,7 +31,7 @@ class Sidebar extends Component {
     }
 
     goTree = () => {
-        this.props.history.push('/tree');
+        this.props.history.push(`/tree/${this.props.reduxStore.recentTreeReducer.tree_id}`);
     }
 
     goSearch = () => {
@@ -64,4 +65,8 @@ class Sidebar extends Component {
     }
 }
 
-export default withStyles(styles)(Sidebar);
+const mapReduxStoreToProps = (reduxStore) => ({
+    reduxStore
+})
+
+export default connect(mapReduxStoreToProps)(withStyles(styles)(Sidebar));

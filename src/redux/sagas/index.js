@@ -6,6 +6,9 @@ import userSaga from './userSaga';
 //From database
 import getTrees from './getTrees.js';
 import getLessons from './getLessons.js';
+import getLessonStatus from './getLessonStatus';
+import getRecent from './getRecent';
+import addRecent from './addRecent';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -17,6 +20,9 @@ import getLessons from './getLessons.js';
 export default function* rootSaga() {
   yield takeEvery('FETCH_TREES', getTrees);
   yield takeEvery('FETCH_LESSONS', getLessons);
+  yield takeEvery('FETCH_LESSON_STATUS', getLessonStatus);
+  yield takeEvery('FETCH_RECENT_TREE', getRecent);
+  yield takeEvery('ADD_RECENT', addRecent);
   yield all([
     loginSaga(),
     registrationSaga(),

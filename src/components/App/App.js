@@ -24,6 +24,7 @@ import './App.css';
 class App extends Component {
   componentDidMount () {
     this.props.dispatch({type: 'FETCH_USER'})
+    this.props.dispatch({type: 'FETCH_RECENT_TREE'})
   }
 
   render() {
@@ -69,7 +70,7 @@ class App extends Component {
             />
             <ProtectedRoute
               exact
-              path="/tree"
+              path="/tree/:id"
               component={TreeView}
             />
             {/* If none of the other routes matched, we will show a 404. */}

@@ -7,6 +7,7 @@ import Sidebar from '../Sidebar/Sidebar';
 
 class TreeView extends Component{
   render(){
+    console.log(this.props.match.params.id);
     return(
   <div className="tree">
     <p>

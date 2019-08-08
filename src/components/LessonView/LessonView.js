@@ -6,6 +6,12 @@ import SideBar from '../Sidebar/Sidebar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+
+})
 
 class LessonView extends Component{
     componentDidMount = () => {
@@ -13,11 +19,24 @@ class LessonView extends Component{
     }
     
     render(){
-        console.log(this.props.reduxStore.currentLessonReducer);
+        console.log(this.props.reduxStore.currentLessonReducer.name);
         return(
             <>
+            <Grid container spacing={6}>
+                <Grid item lg={1}>
+                    <SideBar history={this.props.history} />    
+                </Grid>
+                <Grid item lg={9}>
+                    <Card>
+                        <CardContent>
+                            <Typography>
+                                {this.props.reduxStore.currentLessonReducer.name}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
 
-            <SideBar history={this.props.history} />
+            </Grid>
             </>
         )
     }
@@ -27,4 +46,4 @@ const mapReduxStoreToProps = (reduxStore) => ({
     reduxStore
 })
 
-export default connect(mapReduxStoreToProps)(LessonView);
+export default withStyles(styles)(connect(mapReduxStoreToProps)(LessonView));

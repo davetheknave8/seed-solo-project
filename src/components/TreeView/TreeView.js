@@ -53,7 +53,7 @@ class TreeView extends Component{
   }
 
   handleClick = e => {
-    console.log(this.props.reduxStore.currentTreeReducer.subject);
+    console.log(e.target);
     if(this.state.show === false){
     this.setState({show: true})
     } else{
@@ -91,7 +91,7 @@ class TreeView extends Component{
                     }}
                    />
                   {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) =>
-                    <MainBranch tree={this.props.reduxStore.currentTreeReducer} show={this.state.show} key={i} id={i} x2={this.state.x2} y2={this.state.y2} subcategory={subcategory} />
+                    <MainBranch history={this.props.history} tree={this.props.reduxStore.currentTreeReducer} show={this.state.show} key={i} id={i} x2={this.state.x2} y2={this.state.y2} subcategory={subcategory} />
                   )}
                 </Layer>
                 </Provider>

@@ -100,6 +100,19 @@ router.get('/current', rejectUnauthenticated, (req, res) => {
             console.log('error getting current tree', error);
         })
 })
+
+router.get('/current_lesson', (req, res) => {
+    const lessonId = req.query.id;
+    console.log(lessonId)
+    const sqlText = `SELECT * FROM lesson WHERE id=$1;`;
+    pool.query(sqlText, [lessonId])
+        .then(response => {
+            res.send(response.rows)
+        })
+        .catch(error => {
+            console.log('error getting current lesson', error)
+        })
+})
 /**
  * POST route template
  */

@@ -57,10 +57,14 @@ class MainBranch extends Component {
                     this.setState({ branchColor: '#8B4513' })
                     }}
                     onClick = {() => {
+                        if(this.state.show === false){
                         this.setState({show: true})
+                        } else{
+                            this.setState({show: false})
+                        }
                     }}
                 />
-                {this.props.subcategory.lessons.map((lesson, i) => <LessonBranch key={i} id={i} x1={x2} y1={y2} show={this.state.show} lesson={lesson} />)}
+                {this.props.subcategory.lessons.map((lesson, i) => <LessonBranch history={this.props.history} key={i} id={i} x1={x2} y1={y2} show={this.state.show} lesson={lesson} />)}
                 </>
             )
         }

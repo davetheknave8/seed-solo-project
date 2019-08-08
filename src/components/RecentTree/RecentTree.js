@@ -18,6 +18,10 @@ const styles = theme => ({
 })
 
 class RecentTree extends Component {
+    componentDidMount = () => {
+        this.props.dispatch({type: 'FETCH_RECENT_TREE'})
+    }
+
     render(){
         const {classes} = this.props;
         return(

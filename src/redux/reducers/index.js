@@ -7,6 +7,7 @@ import lessonsReducer from './lessonsReducer';
 import lessonStatusReducer from './lessonStatusReducer';
 import recentTreeReducer from './recentTreeReducer';
 import currentTreeReducer from './currentTreeReducer';
+import currentLessonReducer from './currentLessonReducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   lessonsReducer,
   lessonStatusReducer,
   recentTreeReducer,
-  currentTreeReducer
+  currentTreeReducer,
+  currentLessonReducer
 });
 
 export default rootReducer;

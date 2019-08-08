@@ -25,7 +25,7 @@ class SuggestedLessons extends Component {
                 <CardContent>
                     <Typography>Suggested Lessons:</Typography>
                     <List>
-                    {this.props.reduxStore.treesReducer.map((tree, i) => <SuggestedLessonItem tree={tree} />)}
+                    {this.props.reduxStore.treesReducer.map((tree, i) => <SuggestedLessonItem key={i} tree={tree} />)}
                     </List>
                 </CardContent>
             </Card>

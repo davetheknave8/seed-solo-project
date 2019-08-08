@@ -1,6 +1,6 @@
-const currentTreeReducer = (state=[], action) => {
+const currentTreeReducer = (state={subcategory: []}, action) => {
     if(action.type === 'SET_CURRENT_TREE'){
-        return action.payload;
+        return action.payload[0];
     } else{
         return state;
     }

@@ -10,9 +10,13 @@ import './Footer.css';
 class Footer extends Component{
   render(){
     return(
-      <footer className="footer">
-        &copy; David Reeves
-      </footer>
+      <div className="bottom">
+        <footer className="footer">
+          <p className="name">
+            &copy; David Reeves
+          </p>
+        </footer>
+      </div>
     )
   }
 };

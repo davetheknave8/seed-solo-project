@@ -74,7 +74,7 @@ router.get('/recent', rejectUnauthenticated, (req, res) => {
 router.get('/current', rejectUnauthenticated, (req, res) => {
     console.log(req.query.id);
     const treeId = req.query.id;
-    const sqlText = `SELECT t.id as tree_id,
+    const sqlText = `SELECT t.id as tree_id, t.subject,
 	CASE WHEN count(s) = 0 THEN ARRAY[]::jsonb[]
 	ELSE array_agg(s.sub_name) END as subcategory
 	FROM tree t

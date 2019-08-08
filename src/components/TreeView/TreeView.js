@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import { connect, ReactReduxContext, Provider} from 'react-redux';
 import Sidebar from '../Sidebar/Sidebar';
 import SubcategoryListItem from '../SubcategoryListItem/SubcategoryListItem';
 import MainBranch from '../MainBranch/MainBranch';
@@ -54,7 +54,11 @@ class TreeView extends Component{
 
   handleClick = e => {
     console.log(this.props.reduxStore.currentTreeReducer.subject);
-    this.setState({show: 0})
+    if(this.state.show === false){
+    this.setState({show: true})
+    } else{
+      this.setState({ show: false })
+    }
   }
 
   render(){
@@ -66,14 +70,16 @@ class TreeView extends Component{
       <Grid item lg={9}>
         <Paper className={classes.treePaper}>
               <Typography className="trunk">Tree {this.props.match.params.id}</Typography>
-              <Stage width={1000} height={775}>
+              <ReactReduxContext.Consumer>
+                {({ store }) => (
+              <Stage draggable width={1000} height={775}>
+                <Provider store={store}>
                 <Layer>
                   <Line
                   className={"trunk"}
                   points={this.state.points}
                   stroke={this.state.trunkColor}
-                  strokeWidth={20}
-                  ref="line"
+                  strokeWidth={30}
                   onClick={event => this.handleClick(event)}
                   onMouseEnter = {(event) => {
                     document.body.style.cursor = "pointer";
@@ -84,13 +90,14 @@ class TreeView extends Component{
                     this.setState({ trunkColor: '#8B4513' })
                     }}
                    />
-                   
+                  {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) =>
+                    <MainBranch tree={this.props.reduxStore.currentTreeReducer} show={this.state.show} key={i} id={i} x2={this.state.x2} y2={this.state.y2} subcategory={subcategory} />
+                  )}
                 </Layer>
+                </Provider>
               </Stage>
-                  {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) => 
-                          { return(
-                          <MainBranch show={this.state.show} key={i} id={i} points={[this.state.x2, this.state.y2, this.state.mainX1, this.state.mainY1]} subcategory={subcategory} />
-                          )})}
+                )}
+              </ReactReduxContext.Consumer>
         </Paper>
       </Grid>
       <Grid item lg={2}>

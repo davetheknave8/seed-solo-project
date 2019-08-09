@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Line} from 'react-konva';
+import {Line, Text} from 'react-konva';
 
 class LessonBranch extends Component{
     state = {
@@ -36,16 +36,24 @@ class LessonBranch extends Component{
                         strokeWidth={10}
                         onMouseEnter={(event) => {
                             document.body.style.cursor = "pointer";
-                            this.setState({ lessonColor: '#654321' })
+                            this.setState({ lessonColor: '#654321', showLesson: true })
                         }}
                         onMouseLeave={(event) => {
                             document.body.style.cursor = "default";
-                            this.setState({ lessonColor: '#8B4513' })
+                            this.setState({ lessonColor: '#8B4513', showLesson: false })
                         }}
                         onClick={event => {
                             this.props.history.push(`/lesson/${this.props.lesson.id}`)
                         }}
                  />
+                    {this.state.showLesson === true ? <Text
+                        x={200}
+                        y={650}
+                        text={this.props.lesson.lesson_name.name}
+                        fontSize={20}
+                        width={300}
+                        fill={'black'}
+                    /> : <></>}
                 </>
             )
         }

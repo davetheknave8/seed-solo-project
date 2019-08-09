@@ -48,10 +48,6 @@ input {
     cursor: pointer;
 }
 
-.dashboard {
-    margin-left: 50px
-}
-
 .footer {
     margin: auto;
     text-align: center
@@ -62,3 +58,4 @@ input {
 .catalog {
     margin-left: 50px
 }
+

@@ -3,9 +3,21 @@ import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import Sidebar from '../Sidebar/Sidebar';
 import UserTrees from '../UserTrees/UserTrees';
-import UserLessons from '../UserLessons/UserLessons';
 import RecentTree from '../RecentTree/RecentTree';
 import SuggestedLessons from '../SuggestedLessons/SuggestedLessons';
+
+import './Dashboard.css';
+
+//Material-UI
+import Grid from '@material-ui/core/Grid';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+  gridTwo: {
+    backgroundColor: 'rgba(254, 250, 192, .40)',
+    paddingBottom: '200px'
+  }
+})
 
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
@@ -18,18 +30,35 @@ class Dashboard extends Component{
   }
 
   render(){
+    const {classes} = this.props;
     return(
       <div className="dashboard">
-        <h1 id="welcome">
-          Welcome, { this.props.user.username }!
-        </h1>
-        <p>Your ID is: {this.props.user.id}</p>
-        <UserTrees />
-        <UserLessons />
-        <RecentTree />
-        <SuggestedLessons />
-        <LogOutButton history={this.props.history} className="log-in" />
-        <Sidebar history={this.props.history} />
+        
+        <Grid container>
+          <Grid item sm={1}>
+            <Sidebar history={this.props.history} />
+          </Grid>
+          <Grid item sm={3}>
+            <h1 className='welcome'>
+              Hello, {this.props.user.username}
+            </h1>
+          </Grid>
+          <Grid item sm={8}>
+
+          </Grid>
+        </Grid>
+        <Grid container className={classes.gridTwo}>
+          <Grid item sm={2} />
+          <Grid item sm={3}>
+            <UserTrees />
+          </Grid>
+          <Grid item sm={3}>
+            <RecentTree />
+          </Grid>
+          <Grid item sm={3}>
+            <SuggestedLessons />
+          </Grid>
+        </Grid>
       </div>
     )
   }
@@ -44,4 +73,4 @@ const mapStateToProps = state => ({
 });
 
 // this allows us to use <App /> in index.js
-export default connect(mapStateToProps)(Dashboard);
+export default withStyles(styles)(connect(mapStateToProps)(Dashboard));

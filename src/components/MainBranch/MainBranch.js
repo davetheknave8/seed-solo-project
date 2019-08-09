@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import LessonBranch from '../LessonBranch/LessonBranch';
 
 //Konva
-import { Line } from 'react-konva';
+import { Line, Text } from 'react-konva';
 
 class MainBranch extends Component {
     state = {
@@ -58,12 +58,21 @@ class MainBranch extends Component {
                     }}
                     onClick = {() => {
                         if(this.state.show === false){
-                        this.setState({show: true})
+                        this.setState({show: true, showName: true})
                         } else{
-                            this.setState({show: false})
+                            this.setState({show: false, showName: false})
                         }
+                         
                     }}
                 />
+                {this.state.showName === true?<Text
+                x={200}
+                y={600}
+                text={this.props.subcategory.name}
+                fontSize={30}
+                width={300}
+                fill={'black'}
+                />:<></>}
                 {this.props.subcategory.lessons.map((lesson, i) => <LessonBranch history={this.props.history} key={i} id={i} x1={x2} y1={y2} show={this.state.show} lesson={lesson} />)}
                 </>
             )

@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import LogOutButton from '../LogOutButton/LogOutButton';
+
+import './Sidebar.css';
 
 import Drawer from '@material-ui/core/Drawer';
 import {withStyles} from '@material-ui/core/styles';
@@ -10,6 +13,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import NatureIcon from '@material-ui/icons/Nature';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
+
 
 const styles = theme => ({
     drawer: {
@@ -22,6 +26,10 @@ const styles = theme => ({
     },
     icons: {
         justifyContent: 'center'
+    },
+    logout: {
+        justifyContent: 'center',
+        marginLeft: '17px'
     }
 })
 
@@ -57,6 +65,9 @@ class Sidebar extends Component {
                     </ListItem>
                     <ListItem className={classes.icons}>
                             <Button onClick={this.goSearch}><ListItemIcon className={classes.icons}><SearchIcon /></ListItemIcon></Button>
+                    </ListItem>
+                        <ListItem className={classes.logout}>
+                            <LogOutButton history={this.props.history} sidebar='yes'/>
                     </ListItem>
                 </List>
             </Drawer>

@@ -1,0 +1,10 @@
+.completed {
+    text-decoration: line-through;
+}
+
+.small {
+    color: green;
+    font-size: .5em;
+    margin-left: 50px;
+    justify-content: right;
+}

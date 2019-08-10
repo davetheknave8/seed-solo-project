@@ -1,0 +1,13 @@
+.catalog{
+    height: 300px;
+    background-color: black;
+}
+
+.search-title{
+    color: white;
+    text-align: center
+}
+
+.search{
+    width: 100%
+}

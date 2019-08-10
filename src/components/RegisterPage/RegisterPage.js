@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
+import './RegisterPage.css';
+
+import TextField from '@material-ui/core/TextField';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+  input: {
+    margin: theme.spacing.unit,
+    marginBottom: '35px',
+    width: '100%',
+    backgroundColor: 'white'
+  }
+})
+
 class RegisterPage extends Component {
   state = {
     username: '',
@@ -30,8 +44,9 @@ class RegisterPage extends Component {
   }
 
   render() {
+    const {classes} = this.props;
     return (
-      <div>
+      <div className='registerPage'>
         {this.props.errors.registrationMessage && (
           <h2
             className="alert"
@@ -40,29 +55,27 @@ class RegisterPage extends Component {
             {this.props.errors.registrationMessage}
           </h2>
         )}
-        <form onSubmit={this.registerUser}>
+        <form className='register-form' onSubmit={this.registerUser}>
           <h1>Register User</h1>
           <div>
-            <label htmlFor="username">
-              Username:
-              <input
+              <TextField
+                variant="outlined"
+                className={classes.input}
+                label="Username"
                 type="text"
-                name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
-            </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
-              <input
+              <TextField
+                variant="outlined"
+                className={classes.input}
+                label="Password"
                 type="password"
-                name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
-            </label>
           </div>
           <div>
             <input
@@ -94,5 +107,5 @@ const mapStateToProps = state => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps)(RegisterPage);
+export default withStyles(styles)(connect(mapStateToProps)(RegisterPage));
 

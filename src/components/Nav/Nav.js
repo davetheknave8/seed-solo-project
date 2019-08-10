@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 
+import NatureIcon from '@material-ui/icons/Nature';
+
 class Nav extends Component{
   render(){
     return(
       <div className="nav">
-        <Link to="/home">
-          <h2 className="nav-title">Seed</h2>
-        </Link>
         <div className="nav-right">
           <Link className="nav-link" to="/dashboard">
             {/* Show this link if they are logged in or not,
@@ -32,6 +31,8 @@ class Nav extends Component{
             Course Catalog
           </Link>
         </div>
+        <br />
+        <br />
       </div>
     )
   }

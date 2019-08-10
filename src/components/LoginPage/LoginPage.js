@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import './LoginPage.css';
+import TextField from '@material-ui/core/TextField';
+import {withStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
+const styles = theme => ({
+  input: {
+    margin: theme.spacing.unit,
+    marginBottom: '35px',
+    width: '100%',
+    backgroundColor: 'white',
+    fontFamily: 'Lato'
+  }
+})
+
 class LoginPage extends Component {
   state = {
     username: '',
@@ -30,8 +45,11 @@ class LoginPage extends Component {
   }
 
   render() {
+    const {classes} = this.props
     return (
-      <div>
+      <Grid container>
+        <Grid item sm={12}>
+      <div className="login">
         {this.props.errors.loginMessage && (
           <h2
             className="alert"
@@ -40,29 +58,27 @@ class LoginPage extends Component {
             {this.props.errors.loginMessage}
           </h2>
         )}
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
+        <form className='login-form' onSubmit={this.login}>
+          <h1>Seed.</h1>
           <div>
-            <label htmlFor="username">
-              Username:
-              <input
+              <TextField
+                className={classes.input}
+                variant="outlined"
+                label="Username"
                 type="text"
-                name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
-            </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
-              <input
+              <TextField
+                className={classes.input}
+                variant="outlined"
+                label="Password"
                 type="password"
-                name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
-            </label>
           </div>
           <div>
             <input
@@ -73,6 +89,7 @@ class LoginPage extends Component {
             />
           </div>
         </form>
+        
         <center>
           <button
             type="button"
@@ -83,6 +100,8 @@ class LoginPage extends Component {
           </button>
         </center>
       </div>
+        </Grid>
+      </Grid>
     );
   }
 }
@@ -94,4 +113,4 @@ const mapStateToProps = state => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps)(LoginPage);
+export default withStyles(styles)(connect(mapStateToProps)(LoginPage));

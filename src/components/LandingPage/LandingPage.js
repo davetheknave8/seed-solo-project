@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import Nav from '../Nav/Nav';
 
+import './LandingPage.css';
+
 
 class LandingPage extends Component{
     render(){
         return(
-            <>
-            <Nav history={this.props.history}/>
-            </>
+            <div className="landing">
+                <Nav history={this.props.history}/>
+                <header>
+                    <h1 className='landing-title'>Seed.</h1>
+                </header>
+            </div>
         )
     }
 }

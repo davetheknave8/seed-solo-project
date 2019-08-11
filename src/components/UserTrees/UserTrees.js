@@ -10,11 +10,11 @@ import CardContent from '@material-ui/core/CardContent';
 
 const styles = theme => ({
     card: {
-        margin: '100px',
+        marginRight: '100px',
         marginTop: '20px',
         display: 'inline-block',
-        width: '300px',
-        height: '350px'
+        width: '40vh',
+        height: '50vh'
     }
 })
 

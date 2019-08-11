@@ -11,6 +11,9 @@ import getRecent from './getRecent';
 import addRecent from './addRecent';
 import getCurrent from './getCurrent';
 import getCurrentLesson from './getCurrentLesson';
+import getSearch from './getSearch';
+import addUserTree from './addUserTree';
+import getCurrentObjectives from './getCurrentObjectives';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -26,7 +29,10 @@ export default function* rootSaga() {
   yield takeEvery('FETCH_RECENT_TREE', getRecent);
   yield takeEvery('ADD_RECENT', addRecent);
   yield takeEvery('FETCH_CURRENT_TREE', getCurrent);
-  yield takeEvery('FETCH_CURRENT_LESSON', getCurrentLesson)
+  yield takeEvery('FETCH_CURRENT_LESSON', getCurrentLesson);
+  yield takeEvery('FETCH_SEARCH', getSearch);
+  yield takeEvery('ADD_USER_TREE', addUserTree);
+  yield takeEvery('FETCH_CURRENT_OBJECTIVES', getCurrentObjectives);
   yield all([
     loginSaga(),
     registrationSaga(),

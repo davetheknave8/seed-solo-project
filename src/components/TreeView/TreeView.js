@@ -16,19 +16,20 @@ import './TreeView.css';
 
 const styles = theme => ({
   treePaper: {
-    height: '800px',
-    marginTop: '50px',
-    marginBottom: '10px',
-    marginLeft: '75px',
+    height: '85vh',
+    marginTop: '7vh',
+    marginBottom: '7vh',
+    marginLeft: '15vh',
     backgroundColor: '#fefac0',
     opacity: '.8',
     minWidth: 500,
-    minHeight: 800
+    minHeight: 600
   },
   lessonPaper: {
-    height: '800px',
+    height: '85vh',
     marginTop: '50px',
-    opacity: '.8'
+    opacity: '.8',
+    minHeight: 600
   },
   trunk: {
     cursor: 'pointer',
@@ -38,11 +39,11 @@ const styles = theme => ({
 class TreeView extends Component{
   state = {
     trunkColor: '#8B4513',
-    points: [500, 775, 500, 450],
+    points: [500, 600, 500, 300],
     x1: 500,
-    y1: 775,
+    y1: 600,
     x2: 500,
-    y2: 450,
+    y2: 300,
     mainX1: 0,
     mainY1: 100,
     show: false
@@ -72,7 +73,7 @@ class TreeView extends Component{
               <Typography className="trunk">Tree {this.props.match.params.id}</Typography>
               <ReactReduxContext.Consumer>
                 {({ store }) => (
-              <Stage draggable width={1000} height={775}>
+              <Stage draggable width={1000} height={565}>
                 <Provider store={store}>
                 <Layer>
                   <Line

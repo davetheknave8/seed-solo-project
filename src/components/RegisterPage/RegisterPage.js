@@ -46,7 +46,8 @@ class RegisterPage extends Component {
   render() {
     const {classes} = this.props;
     return (
-      <div className='registerPage'>
+      <div className='register-page'>
+      <div>
         {this.props.errors.registrationMessage && (
           <h2
             className="alert"
@@ -95,6 +96,7 @@ class RegisterPage extends Component {
             Login
           </button>
         </center>
+      </div>
       </div>
     );
   }

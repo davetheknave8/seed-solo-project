@@ -36,12 +36,13 @@ const styles = theme => ({
 class LessonView extends Component{
     componentDidMount = () => {
         document.body.style.cursor = "default";
-        this.props.dispatch({type: 'FETCH_CURRENT_LESSON', payload: this.props.match.params.id})
+        this.props.dispatch({type: 'FETCH_CURRENT_LESSON', payload: this.props.match.params.id});
+        this.props.dispatch({type: 'FETCH_CURRENT_OBJECTIVES', payload: this.props.match.params.id})
     }
     
     render(){
         const {classes} = this.props;
-        console.log(this.props.reduxStore.currentLessonReducer.video);
+        console.log(this.props.reduxStore.currentObjectivesReducer);
         return(
             <div className='lesson'>
                 <Grid container spacing={6}>

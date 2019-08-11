@@ -15,7 +15,7 @@ import {withStyles} from '@material-ui/core/styles';
 const styles = theme => ({
   gridTwo: {
     backgroundColor: 'rgba(254, 250, 192, .40)',
-    paddingBottom: '200px'
+    paddingBottom: '2vh'
   }
 })
 
@@ -43,9 +43,7 @@ class Dashboard extends Component{
               Hello, {this.props.user.username}
             </h1>
           </Grid>
-          <Grid item sm={8}>
-
-          </Grid>
+          
         </Grid>
         <Grid container className={classes.gridTwo}>
           <Grid item sm={2} />

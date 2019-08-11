@@ -3,10 +3,11 @@
     object-fit: cover;
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 65px
+    height: 100vh;
+    overflow: hidden
 }
 
 .welcome {
-    padding: 50px;
-    margin-bottom: 90px
+    margin-top: 38%;
+    margin-bottom: 38%
 }

@@ -113,11 +113,52 @@ router.get('/current_lesson', (req, res) => {
             console.log('error getting current lesson', error)
         })
 })
+
+router.get('/search', (req, res) => {
+    const userQuery = `%${req.query.query}%`;
+    const sqlText = `SELECT * FROM tree WHERE tree.subject LIKE $1`;
+    pool.query(sqlText, [userQuery])
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error getting search', error);
+        })
+})
+
+router.get('/objective', (req, res) => {
+    console.log('in objective', req.query.lesson_id);
+    const lessonId = req.query.lesson_id;
+    const sqlText = `SELECT lesson.id as lesson_id, lesson."name", objectives.id as objectives_id, objectives."name" FROM objectives
+	                    JOIN lesson ON objectives.lesson_id=lesson.id
+                        WHERE lesson.id=$1;`
+    pool.query(sqlText, [lessonId])
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error getting objectives', error);
+        })
+
+})
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
-
+router.post('/user_tree', (req, res) => {
+    console.log(req.body);
+    const userId = req.body.user_id;
+    const treeId = req.body.tree_id;
+    const sqlText = `INSERT INTO user_tree(user_id, tree_id)
+                        VALUES($1, $2);`
+    const values = [userId, treeId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            res.sendStatus(500);
+            console.log('error posting new user_tree', error);
+        })
 });
 
 router.post('/recent', (req, res) => {

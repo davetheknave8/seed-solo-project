@@ -19,7 +19,7 @@ class LessonBranch extends Component{
             x2 = x1
         }
         console.log(x2)
-        let y2 = 75;
+        let y2 = 0;
         let points = [x1, y1, x2, y2];
         console.log(points);
         if(this.props.show === false){
@@ -47,8 +47,8 @@ class LessonBranch extends Component{
                         }}
                  />
                     {this.state.showLesson === true ? <Text
-                        x={200}
-                        y={650}
+                        x={(x1 - 150)}
+                        y={50}
                         text={this.props.lesson.lesson_name.name}
                         fontSize={20}
                         width={300}

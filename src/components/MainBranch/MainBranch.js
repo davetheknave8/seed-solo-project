@@ -32,7 +32,7 @@ class MainBranch extends Component {
         let x1 = this.props.x2;
         let y1 = this.props.y2;
         let x2 = this.getPoints();
-        let y2 = 200;
+        let y2 = 100;
         let points = [x1, y1, x2, y2]
         console.log(this.state.points)
         if(this.props.show === false){
@@ -67,7 +67,7 @@ class MainBranch extends Component {
                 />
                 {this.state.showName === true?<Text
                 x={200}
-                y={600}
+                y={300}
                 text={this.props.subcategory.name}
                 fontSize={30}
                 width={300}

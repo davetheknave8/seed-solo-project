@@ -1,9 +1,9 @@
-const userReducer = (state = {}, action) => {
+const userReducer = (state = {logged: 1}, action) => {
   switch (action.type) {
     case 'SET_USER':
       return action.payload;
     case 'UNSET_USER':
-      return {};
+      return {logged: 1};
     default:
       return state;
   }

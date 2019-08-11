@@ -47,9 +47,10 @@ class LoginPage extends Component {
   render() {
     const {classes} = this.props
     return (
+      <div className='login'>
       <Grid container>
         <Grid item sm={12}>
-      <div className="login">
+      <div>
         {this.props.errors.loginMessage && (
           <h2
             className="alert"
@@ -102,6 +103,7 @@ class LoginPage extends Component {
       </div>
         </Grid>
       </Grid>
+      </div>
     );
   }
 }

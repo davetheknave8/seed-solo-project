@@ -17,6 +17,7 @@ import getCurrentObjectives from './getCurrentObjectives';
 import getFinishedObjectives from './getFinishedObjectives';
 import addCompletedObjective from './addCompletedObjective';
 import deleteCompletedObjective from './deleteCompleteObjective';
+import addCompletedLesson from './addCompletedLesson';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -39,6 +40,7 @@ export default function* rootSaga() {
   yield takeEvery('FETCH_FINISHED_OBJECTIVES', getFinishedObjectives);
   yield takeEvery('ADD_COMPLETED_OBJECTIVE', addCompletedObjective);
   yield takeEvery('DELETE_COMPLETED_OBJECTIVE', deleteCompletedObjective);
+  yield takeEvery('ADD_COMPLETED_LESSON', addCompletedLesson);
   yield all([
     loginSaga(),
     registrationSaga(),

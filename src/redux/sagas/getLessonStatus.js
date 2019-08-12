@@ -4,7 +4,6 @@ import axios from 'axios';
 function* getLessonStatus(){
     try{
         const response = yield axios.get('/api/tree/status')
-        console.log(response.data);
         yield put({type: 'SET_LESSON_STATUS', payload: response.data})
     }
     catch(error){

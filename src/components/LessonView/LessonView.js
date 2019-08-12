@@ -12,6 +12,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
+import Button from '@material-ui/core/Button';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
     text: {
@@ -40,6 +46,12 @@ class LessonView extends Component{
         document.body.style.cursor = "default";
         this.props.dispatch({type: 'FETCH_CURRENT_LESSON', payload: this.props.match.params.id});
         this.props.dispatch({type: 'FETCH_CURRENT_OBJECTIVES', payload: this.props.match.params.id});
+        this.props.dispatch({ type: 'FETCH_FINISHED_OBJECTIVES', payload: { user_id: this.props.reduxStore.user.id, lesson_id: this.props.match.params.id } })
+    }
+
+    handleFinish = (event) => {
+        this.props.dispatch({type: 'ADD_COMPLETED_LESSON', payload: {lesson_id: this.props.match.params.id, tree_id: this.props.reduxStore.recentTreeReducer.tree_id}})
+        this.props.history.push(`/tree/${this.props.reduxStore.recentTreeReducer.tree_id}`)
     }
     
     render(){
@@ -54,15 +66,26 @@ class LessonView extends Component{
                     <Grid item sm={1}></Grid>
                     <Grid item sm={1}></Grid>
                     <Grid item sm={10}>
-                        <Card className={classes.objectives}>
-                            <CardContent>
-                                <Typography>
-                                    <FormGroup>
-                                        {this.props.reduxStore.currentObjectivesReducer.map((objective, i) => <ObjectiveListItem key={i} objective={objective} lesson_id={this.props.match.params.id} />)}
-                                    </FormGroup>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        <ExpansionPanel>
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography>Objectives</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                               <FormGroup>
+                                    {this.props.reduxStore.currentObjectivesReducer.map((objective, i) => <ObjectiveListItem key={i} objective={objective} lesson_id={this.props.match.params.id} />)}
+                                </FormGroup>                                
+                            </ExpansionPanelDetails>
+                            <ExpansionPanelActions>
+                                {this.props.reduxStore.currentObjectivesReducer.length === this.props.reduxStore.objectiveStatusReducer.length
+                                    ?
+                                    <>
+                                    <Typography>Finished with this lesson?</Typography>
+                                    <Button variant="contained" color="primary" onClick={event => this.handleFinish(event)}>Finish Lesson</Button>
+                                    </>
+                                    :
+                                    <></>}
+                            </ExpansionPanelActions>
+                        </ExpansionPanel>
                     </Grid>
                     <Grid item sm={1}></Grid>
                     

@@ -159,7 +159,7 @@ router.get('/objective/finished', (req, res) => {
                         JOIN objective_status ON "user".id=objective_status.user_id
                         JOIN objectives ON objective_status.objective_id=objectives.id
                         JOIN lesson on objectives.lesson_id = lesson.id
-                        WHERE lesson_id = $1 AND user_id=$2;`;
+                        WHERE objectives.lesson_id = $1 AND user_id=$2;`;
     const values = [lessonId, userId];
     pool.query(sqlText, values)
         .then(response => {
@@ -207,16 +207,35 @@ router.post('/recent', (req, res) => {
 
 router.post('/objective', (req, res) => {
     console.log(req.body);
+    const lessonId = req.body.lesson_id;
     const userId = req.body.user_id;
     const objectiveId = req.body.objective_id;
-    const sqlText = `INSERT INTO objective_status(objective_id, user_id)
-                        VALUES($1, $2);`;
-    const values = [objectiveId, userId];
+    const sqlText = `INSERT INTO objective_status(objective_id, user_id, lesson_id)
+                        VALUES($1, $2, $3);`;
+    const values = [objectiveId, userId, lessonId];
     pool.query(sqlText, values)
         .then(response => {
             res.sendStatus(200)
         })
         .catch(error => {
+            res.sendStatus(500);
+        })
+})
+
+router.post('/complete_lesson', (req, res) => {
+    console.log(req.body)
+    const lessonId = req.body.lesson_id;
+    const treeId = req.body.tree_id;
+    const userId = req.user.id;
+    const sqlText = `INSERT INTO lesson_status(lesson_id, user_id, tree_id)
+                        VALUES($1, $2, $3);`;
+    const values = [lessonId, userId, treeId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error adding completed lesson', error);
             res.sendStatus(500);
         })
 })

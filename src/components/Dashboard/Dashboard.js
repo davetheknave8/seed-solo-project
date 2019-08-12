@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import LogOutButton from '../LogOutButton/LogOutButton';
 import Sidebar from '../Sidebar/Sidebar';
 import UserTrees from '../UserTrees/UserTrees';
 import RecentTree from '../RecentTree/RecentTree';

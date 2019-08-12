@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import SideBar from '../Sidebar/Sidebar';
+import ObjectiveListItem from '../ObjectiveListItem/ObjectiveListItem';
 
 import './LessonView.css';
 
@@ -10,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
 
 const styles = theme => ({
     text: {
@@ -37,12 +39,11 @@ class LessonView extends Component{
     componentDidMount = () => {
         document.body.style.cursor = "default";
         this.props.dispatch({type: 'FETCH_CURRENT_LESSON', payload: this.props.match.params.id});
-        this.props.dispatch({type: 'FETCH_CURRENT_OBJECTIVES', payload: this.props.match.params.id})
+        this.props.dispatch({type: 'FETCH_CURRENT_OBJECTIVES', payload: this.props.match.params.id});
     }
     
     render(){
         const {classes} = this.props;
-        console.log(this.props.reduxStore.currentObjectivesReducer);
         return(
             <div className='lesson'>
                 <Grid container spacing={6}>
@@ -56,7 +57,9 @@ class LessonView extends Component{
                         <Card className={classes.objectives}>
                             <CardContent>
                                 <Typography>
-                                    {this.props.reduxStore.currentLessonReducer.objectives}
+                                    <FormGroup>
+                                        {this.props.reduxStore.currentObjectivesReducer.map((objective, i) => <ObjectiveListItem key={i} objective={objective} lesson_id={this.props.match.params.id} />)}
+                                    </FormGroup>
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -80,9 +83,9 @@ class LessonView extends Component{
                             <CardContent>
                                 {this.props.reduxStore.currentLessonReducer.video?<iframe width="300" height="180" 
                                     src={this.props.reduxStore.currentLessonReducer.video} 
-                                    frameborder="0" 
+                                    frameBorder="0" 
                                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen>
+                                    allowFullScreen>
                                     </iframe>:<></>}
                             </CardContent>
                             <hr />

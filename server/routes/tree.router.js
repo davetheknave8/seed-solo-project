@@ -54,6 +54,7 @@ router.get('/status', rejectUnauthenticated, (req, res) => {
             res.send(response.rows);
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error getting lesson status', error);
         })
 })
@@ -67,6 +68,10 @@ router.get('/recent', rejectUnauthenticated, (req, res) => {
     pool.query(sqlText, [userId])
         .then(response => {
             res.send(response.rows[response.rows.length-1])
+        })
+        .catch(error => {
+            console.log('error getting recent tree', error);
+            res.sendStatus(500);
         })
 
 })
@@ -97,6 +102,7 @@ router.get('/current', rejectUnauthenticated, (req, res) => {
             res.send(response.rows);
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error getting current tree', error);
         })
 })
@@ -110,6 +116,7 @@ router.get('/current_lesson', (req, res) => {
             res.send(response.rows)
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error getting current lesson', error)
         })
 })
@@ -122,6 +129,7 @@ router.get('/search', (req, res) => {
             res.send(response.rows);
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error getting search', error);
         })
 })
@@ -137,9 +145,30 @@ router.get('/objective', (req, res) => {
             res.send(response.rows);
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error getting objectives', error);
         })
 
+})
+
+router.get('/objective/finished', (req, res) => {
+    console.log(req.query);
+    const userId = req.query.user_id;
+    const lessonId = req.query.lesson_id;
+    const sqlText = `SELECT "user".id as user_id, objectives.id as objective_id, objectives."name", objectives.lesson_id FROM "user"
+                        JOIN objective_status ON "user".id=objective_status.user_id
+                        JOIN objectives ON objective_status.objective_id=objectives.id
+                        JOIN lesson on objectives.lesson_id = lesson.id
+                        WHERE lesson_id = $1 AND user_id=$2;`;
+    const values = [lessonId, userId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            res.sendStatus(500);
+            console.log('error getting finished objectives', error);
+        })
 })
 /**
  * POST route template
@@ -171,7 +200,42 @@ router.post('/recent', (req, res) => {
             res.sendStatus(200);
         })
         .catch(error => {
+            res.sendStatus(500);
             console.log('error adding recent to database', error);
+        })
+})
+
+router.post('/objective', (req, res) => {
+    console.log(req.body);
+    const userId = req.body.user_id;
+    const objectiveId = req.body.objective_id;
+    const sqlText = `INSERT INTO objective_status(objective_id, user_id)
+                        VALUES($1, $2);`;
+    const values = [objectiveId, userId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200)
+        })
+        .catch(error => {
+            res.sendStatus(500);
+        })
+})
+
+//Delete Routes
+
+router.delete('/objective', (req, res) => {
+    console.log('in delete objective', req.query);
+    const userId = req.query.user_id;
+    const objectiveId = req.query.objective_id;
+    const sqlText = `DELETE FROM objective_status WHERE user_id = $1 AND objective_id = $2;`;
+    const values = [userId, objectiveId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error deleting objective status', error);
+            res.sendStatus(500);
         })
 })
 

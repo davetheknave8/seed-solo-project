@@ -8,7 +8,6 @@ import './CourseCatalog.css';
 //Material-UI
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/Textfield';
-import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';

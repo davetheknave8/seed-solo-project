@@ -14,6 +14,9 @@ import getCurrentLesson from './getCurrentLesson';
 import getSearch from './getSearch';
 import addUserTree from './addUserTree';
 import getCurrentObjectives from './getCurrentObjectives';
+import getFinishedObjectives from './getFinishedObjectives';
+import addCompletedObjective from './addCompletedObjective';
+import deleteCompletedObjective from './deleteCompleteObjective';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -33,6 +36,9 @@ export default function* rootSaga() {
   yield takeEvery('FETCH_SEARCH', getSearch);
   yield takeEvery('ADD_USER_TREE', addUserTree);
   yield takeEvery('FETCH_CURRENT_OBJECTIVES', getCurrentObjectives);
+  yield takeEvery('FETCH_FINISHED_OBJECTIVES', getFinishedObjectives);
+  yield takeEvery('ADD_COMPLETED_OBJECTIVE', addCompletedObjective);
+  yield takeEvery('DELETE_COMPLETED_OBJECTIVE', deleteCompletedObjective);
   yield all([
     loginSaga(),
     registrationSaga(),

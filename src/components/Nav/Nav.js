@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 
-import NatureIcon from '@material-ui/icons/Nature';
-
 class Nav extends Component{
   render(){
     return(

@@ -9,7 +9,6 @@ import {
 import {connect} from 'react-redux';
 
 import LoginPage from '../LoginPage/LoginPage';
-import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 

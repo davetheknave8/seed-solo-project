@@ -7,14 +7,14 @@ import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 
-
 const styles = theme => ({
     card: {
         marginRight: '100px',
         marginTop: '20px',
         display: 'inline-block',
         width: '40vh',
-        height: '50vh'
+        height: '50vh',
+        overflow: 'auto'
     }
 })
 
@@ -26,7 +26,7 @@ class UserTrees extends Component {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography>Your Trees: </Typography>
-                    {this.props.reduxStore.treesReducer.map((tree, i) => <UserTreeItem tree={tree} key={i}></UserTreeItem>)}
+                    {this.props.reduxStore.treesReducer.map((tree, i) => <UserTreeItem history={this.props.history} tree={tree} key={i}></UserTreeItem>)}
                 </CardContent>
             </Card>
             

@@ -77,7 +77,6 @@ router.get('/recent', rejectUnauthenticated, (req, res) => {
 })
 
 router.get('/current', rejectUnauthenticated, (req, res) => {
-    console.log(req.query.id);
     const treeId = req.query.id;
     const sqlText = `SELECT t.id as tree_id, t.subject,
 	CASE WHEN count(s) = 0 THEN ARRAY[]::jsonb[]
@@ -109,7 +108,6 @@ router.get('/current', rejectUnauthenticated, (req, res) => {
 
 router.get('/current_lesson', (req, res) => {
     const lessonId = req.query.id;
-    console.log(lessonId)
     const sqlText = `SELECT * FROM lesson WHERE id=$1;`;
     pool.query(sqlText, [lessonId])
         .then(response => {
@@ -152,8 +150,7 @@ router.get('/objective', (req, res) => {
 })
 
 router.get('/objective/finished', (req, res) => {
-    console.log(req.query);
-    const userId = req.query.user_id;
+    const userId = req.user.id;
     const lessonId = req.query.lesson_id;
     const sqlText = `SELECT "user".id as user_id, objectives.id as objective_id, objectives."name", objectives.lesson_id FROM "user"
                         JOIN objective_status ON "user".id=objective_status.user_id
@@ -161,6 +158,7 @@ router.get('/objective/finished', (req, res) => {
                         JOIN lesson on objectives.lesson_id = lesson.id
                         WHERE objectives.lesson_id = $1 AND user_id=$2;`;
     const values = [lessonId, userId];
+    console.log('in fisihed objectives', values);
     pool.query(sqlText, values)
         .then(response => {
             res.send(response.rows);
@@ -170,9 +168,59 @@ router.get('/objective/finished', (req, res) => {
             console.log('error getting finished objectives', error);
         })
 })
+
+router.get('/all', (req, res) => {
+    const sqlText = `SELECT * FROM tree;`;
+    pool.query(sqlText)
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error getting all tree', error);
+        })
+})
+
+router.get('/all_user_tree', (req, res) => {
+    const sqlText = `SELECT user_tree.user_id as user_id, user_tree.tree_id as tree_id, "user".username FROM user_tree
+	JOIN "user" ON user_tree.user_id = "user".id;`;
+    pool.query(sqlText)
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error getting all user trees', error);
+        })
+})
+
+router.get('/request', (req, res) => {
+    const sqlText = `SELECT * FROM requests;`;
+    pool.query(sqlText)
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error in getting request', error);
+            res.sendStatus(500);
+        })
+})
 /**
  * POST route template
  */
+router.post('/request', (req, res) => {
+    const request = req.body;
+    const user = req.user;
+    const sqlText = `INSERT INTO requests(user_id, tree_name, description, notes)
+                        VALUES($1, $2, $3, $4);`;
+    const values = [user.id, request.name, request.description, request.notes]
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error adding request', error);
+        })
+})
+
 router.post('/user_tree', (req, res) => {
     console.log(req.body);
     const userId = req.body.user_id;
@@ -256,6 +304,55 @@ router.delete('/objective', (req, res) => {
             console.log('error deleting objective status', error);
             res.sendStatus(500);
         })
+})
+
+router.delete('/user_tree', (req, res) => {
+    console.log(req.query);
+    const treeId = req.query.tree_id;
+    const userId = req.user.id;
+    const sqlText = `DELETE FROM user_tree WHERE user_id = $1 AND tree_id=$2;`;
+    const sqlTextTwo = `DELETE FROM recent_tree WHERE user_id=$1 AND tree_id=$2;`;
+    const values = [userId, treeId];
+    pool.query(sqlText, values)
+        .then(response => {
+    
+        })
+        .catch(error => {
+            console.log('error deleting user_tree', error);
+            res.sendStatus(500);
+        })
+    pool.query(sqlTextTwo, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error deleting recent_tree', error);
+            res.sendStatus(500);
+        })
+})
+
+router.delete('/lesson_status', (req, res) => {
+    console.log(req.query);
+    const lessonId = req.query.lesson_id;
+    const userId = req.user.id;
+    const sqlText = `DELETE FROM lesson_status WHERE lesson_id=$1 AND user_id=$2;`;
+    const sqlTextTwo = `DELETE FROM objective_status WHERE lesson_id=$1 and user_id=$2;`;
+    const values = [lessonId, userId];
+    pool.query(sqlText, values)
+        .then(response => {
+            pool.query(sqlTextTwo, values)
+            .then(response => {
+                res.sendStatus(200);
+            })
+            .catch(error => {
+                console.log('error resetting lesson_status', error);
+            })
+        })
+        .catch(error => {
+            console.log('error resetting lesson status', error);
+            res.sendStatus(500);
+        })
+
 })
 
 module.exports = router;

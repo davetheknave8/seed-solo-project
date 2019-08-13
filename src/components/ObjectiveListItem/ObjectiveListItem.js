@@ -36,20 +36,31 @@ class ObjectiveListItem extends Component {
         console.log(complete);
         return(
             <>
-            {complete===false?
-            <FormControlLabel
-            control={
-                <Checkbox checked={false}
-                onChange={event => this.handleComplete(event)} />
-            }
-             label={this.props.objective.name} />
+                {complete===false?
+                <FormControlLabel
+                control={
+                    <Checkbox checked={false}
+                    onChange={event => this.handleComplete(event)} />
+                }
+                label={this.props.objective.name} />
             :
-            <FormControlLabel
-            control={
-                <Checkbox checked={true}
-                onChange={event => this.handleUncomplete(event)} />                
-            }
-            label={this.props.objective.name} />}
+                <>
+                {!this.props.completed ? 
+                    <FormControlLabel
+                    control={
+                        <Checkbox checked={true}
+                        onChange={event => this.handleUncomplete(event)} />                
+                    }
+                    label={this.props.objective.name} />
+                :
+                    <FormControlLabel
+                    control={
+                        <Checkbox checked={true}
+                        disabled
+                         />                
+                    }
+                    label={this.props.objective.name} />   
+                 }</>}
             </>
         )
     }

@@ -4,6 +4,8 @@ import { ListItem } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import {connect} from 'react-redux';
 
+import Typography from '@material-ui/core/Typography';
+
 class SuggestedLessonItem extends Component{
     state = {
         suggestedLesson: {tree: ''}
@@ -40,13 +42,15 @@ class SuggestedLessonItem extends Component{
         console.log(this.getSuggestedLessons());
         return(
             <>
-            { this.props.tree.subject }
+            {this.getSuggestedLessons() !== undefined ? <> <Typography>{ this.props.tree.subject }</Typography>
             <List>
                 <ListItem>
-                        <Link to={`/lesson/${this.getSuggestedLessons() !== '' ? this.getSuggestedLessons().lesson_id : ''}`}>{this.getSuggestedLessons() !== ''?this.getSuggestedLessons().lesson:<></>}</Link>
+                        <Link to={`/lesson/${this.getSuggestedLessons() !== '' && this.getSuggestedLessons() !== undefined ? this.getSuggestedLessons().lesson_id : ''}`}>{this.getSuggestedLessons() !== '' && this.getSuggestedLessons() !== undefined ? this.getSuggestedLessons().lesson:<></>}</Link>
                 </ListItem>
             </List>
-            </>
+                </> : <> </>
+        }
+        </>
         )
     }
 }

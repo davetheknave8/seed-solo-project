@@ -47,15 +47,28 @@ class LessonView extends Component{
         this.props.dispatch({type: 'FETCH_CURRENT_LESSON', payload: this.props.match.params.id});
         this.props.dispatch({type: 'FETCH_CURRENT_OBJECTIVES', payload: this.props.match.params.id});
         this.props.dispatch({ type: 'FETCH_FINISHED_OBJECTIVES', payload: { user_id: this.props.reduxStore.user.id, lesson_id: this.props.match.params.id } })
+        this.props.dispatch({type: 'FETCH_LESSON_STATUS'})
     }
 
     handleFinish = (event) => {
         this.props.dispatch({type: 'ADD_COMPLETED_LESSON', payload: {lesson_id: this.props.match.params.id, tree_id: this.props.reduxStore.recentTreeReducer.tree_id}})
         this.props.history.push(`/tree/${this.props.reduxStore.recentTreeReducer.tree_id}`)
     }
+
+    handleReset = (event) => {
+        this.props.dispatch({type: 'RESET_LESSON_STATUS', payload: {lesson_id: this.props.match.params.id}})
+    }
     
     render(){
         const {classes} = this.props;
+        console.log(this.props.reduxStore.lessonStatusReducer);
+        let completed = false;
+        for (let currentLesson of this.props.reduxStore.lessonStatusReducer ){
+            if(currentLesson.lesson_id === Number(this.props.match.params.id)){
+                completed = true;
+            }
+        }
+        console.log(completed);
         return(
             <div className='lesson'>
                 <Grid container spacing={6}>
@@ -72,15 +85,19 @@ class LessonView extends Component{
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                <FormGroup>
-                                    {this.props.reduxStore.currentObjectivesReducer.map((objective, i) => <ObjectiveListItem key={i} objective={objective} lesson_id={this.props.match.params.id} />)}
+                                    {this.props.reduxStore.currentObjectivesReducer.map((objective, i) => <ObjectiveListItem completed={completed} key={i} objective={objective} lesson_id={this.props.match.params.id} />)}
                                 </FormGroup>                                
                             </ExpansionPanelDetails>
                             <ExpansionPanelActions>
                                 {this.props.reduxStore.currentObjectivesReducer.length === this.props.reduxStore.objectiveStatusReducer.length
                                     ?
                                     <>
-                                    <Typography>Finished with this lesson?</Typography>
-                                    <Button variant="contained" color="primary" onClick={event => this.handleFinish(event)}>Finish Lesson</Button>
+                                        {!completed ? 
+                                            <><Typography>Finished with this lesson?</Typography>
+                                            <Button variant="contained" color="primary" onClick={event => this.handleFinish(event)}>Finish Lesson</Button></>
+                                        :
+                                            <><Typography>Reset Lesson?</Typography>
+                                            <Button variant="contained" color="secondary" onClick={event => this.handleReset(event)}>Reset Lesson</Button></>}
                                     </>
                                     :
                                     <></>}

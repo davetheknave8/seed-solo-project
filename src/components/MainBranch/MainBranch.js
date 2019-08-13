@@ -50,17 +50,17 @@ class MainBranch extends Component {
                   strokeWidth={20}
                   onMouseEnter = {(event) => {
                     document.body.style.cursor = "pointer";
-                    this.setState({ branchColor: '#654321'})
+                      this.setState({ branchColor: '#654321', showName: true})
                                       }}
                   onMouseLeave={(event) => {
                     document.body.style.cursor = "default";
-                    this.setState({ branchColor: '#8B4513' })
+                      this.setState({ branchColor: '#8B4513', showName: false })
                     }}
                     onClick = {() => {
                         if(this.state.show === false){
-                        this.setState({show: true, showName: true})
+                        this.setState({show: true})
                         } else{
-                            this.setState({show: false, showName: false})
+                            this.setState({show: false})
                         }
                          
                     }}

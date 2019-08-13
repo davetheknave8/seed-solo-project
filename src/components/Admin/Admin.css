@@ -1,0 +1,8 @@
+.admin {
+    background-image: url('https://images.unsplash.com/photo-1546018440-af2ea82f464c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80');
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden
+}

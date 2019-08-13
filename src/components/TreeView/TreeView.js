@@ -16,20 +16,18 @@ import './TreeView.css';
 
 const styles = theme => ({
   treePaper: {
-    height: '85vh',
-    marginTop: '7vh',
+    height: '600px',
+    marginTop: '10vh',
     marginBottom: '7vh',
     marginLeft: '15vh',
     backgroundColor: '#fefac0',
     opacity: '.8',
     minWidth: 500,
-    minHeight: 600
   },
   lessonPaper: {
-    height: '85vh',
-    marginTop: '50px',
+    height: '600px',
+    marginTop: '10vh',
     opacity: '.8',
-    minHeight: 600
   },
   trunk: {
     cursor: 'pointer',

@@ -14,6 +14,8 @@ import objectiveStatusReducer from './objectiveStatusReducer';
 import allTreesReducer from './allTreesReducer';
 import allUserTreesReducer from './allUserTreesReducer';
 import allRequestsReducer from './allRequestsReducer';
+import userRequestsReducer from './userRequestsReducer';
+import creatorTreesReducer from './creatorTreesReducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -36,7 +38,9 @@ const rootReducer = combineReducers({
   objectiveStatusReducer,
   allTreesReducer,
   allUserTreesReducer,
-  allRequestsReducer
+  allRequestsReducer,
+  userRequestsReducer,
+  creatorTreesReducer
 });
 
 export default rootReducer;

@@ -28,7 +28,10 @@ const styles = theme => ({
     },
     row: {
         backgroundColor: '#dfedd6',
-        opacity: '.9'
+        opacity: '.9',
+    },
+    cell: {
+        fontSize: '.75em'
     }
 })
 
@@ -62,9 +65,9 @@ class AdminTreeItem extends Component {
         return(
             <>
             <TableRow className={classes.row}>
-                <TableCell>{this.props.tree.subject}</TableCell>
-                <TableCell>{this.props.tree.description}</TableCell>
-                <TableCell><Link className={classes.link} onClick={event => this.handleShowUsers(event)}>{numberOfUsers}</Link></TableCell>
+                <TableCell className={classes.cell}>{this.props.tree.subject}</TableCell>
+                <TableCell className={classes.cell}>{this.props.tree.description}</TableCell>
+                <TableCell className={classes.cell}><Link className={classes.link} onClick={event => this.handleShowUsers(event)}>{numberOfUsers} users</Link></TableCell>
             </TableRow>
             <Modal aria-labelledby="user-model"
             aria-describedby="modal-to-show-users"

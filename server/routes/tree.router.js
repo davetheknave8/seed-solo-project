@@ -22,6 +22,40 @@ router.get('/tree', rejectUnauthenticated, (req, res) => {
         })
 });
 
+router.get('/creator_trees', (req, res) => {
+    const userId = req.user.id;
+    const sqlText = `SELECT * FROM tree WHERE creator_id=$1;`;
+    pool.query(sqlText, [userId])
+        .then(response => {
+            res.send(response.rows);
+        })
+        .catch(error => {
+            console.log('error getting creator_trees', error);
+        })
+})
+
+router.get('/user_requests', (req, res) => {
+    const userId = req.user.id;
+    const sqlText = `SELECT * FROM requests WHERE user_id=$1;`;
+    const values = [userId];
+    pool.query(sqlText, values)
+        .then(response => {
+            const accepted = []
+            const denied = []
+            for(let currentRequest of response.rows){
+                if(currentRequest.status === 'accept'){
+                    accepted.push(currentRequest);
+                } else if (currentRequest.status === 'denied'){
+                    denied.push(currentRequest);
+                }
+            }
+            res.send({accepted: accepted, denied: denied})
+        })
+        .catch(error => {
+            console.log('error getting user requests', error);
+        })
+})
+
 router.get('/lesson', rejectUnauthenticated, (req, res) => {
     const userId = req.user.id;
     sqlText = `SELECT "user".id as user_id, tree.subject as tree, subcategory."name" as subcategory, lesson.id as lesson_id, lesson."name" as lesson, lesson.completed FROM "user" 	
@@ -288,7 +322,38 @@ router.post('/complete_lesson', (req, res) => {
         })
 })
 
+router.post('/', (req, res) => {
+    console.log(req.body);
+    const creatorId = req.body.user_id;
+    const subject = req.body.tree_name;
+    const description = req.body.description;
+    const sqlText = `INSERT INTO tree(subject, description, creator_id)
+                        VALUES($1, $2, $3);`;
+    const values = [subject, description, creatorId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error creating tree', error);
+            res.sendStatus(500);
+        })
+})
+
 //Delete Routes
+
+router.delete('/delete_tree/:id', (req, res) => {
+    const treeId = req.params.id;
+    const sqlText = `DELETE FROM tree WHERE id=$1;`;
+    pool.query(sqlText, [treeId])
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error deleting tree', error);
+
+        })
+})
 
 router.delete('/objective', (req, res) => {
     console.log('in delete objective', req.query);
@@ -353,6 +418,61 @@ router.delete('/lesson_status', (req, res) => {
             res.sendStatus(500);
         })
 
+})
+
+router.delete('/request/:id', (req, res) => {
+    console.log(req.params.id);
+    const sqlText = `DELETE FROM requests WHERE id = $1;`;
+    const values = [req.params.id];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            res.sendStatus(500);
+        })
+})
+
+//EDIT ROUTES
+
+router.put('/request/:id', (req, res) => {
+    console.log(req.body);
+    const requestId = req.params.id;
+    const treeName = req.body.tree_name;
+    const description = req.body.description;
+    const notes = req.body.notes;
+    const sqlText = `UPDATE requests SET tree_name=$1, description=$2, notes=$3, status='not viewed' WHERE id=$4;`;
+    const values = [treeName, description, notes, requestId];
+    pool.query(sqlText, values)
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error editing request', error);
+        })
+})
+
+router.put('/status', (req, res) => {
+    console.log(req.body);
+    const idToEdit = req.body.request_id;
+    const userId = req.body.user_id;
+    const notes = req.body.notes
+    const sqlText = `UPDATE requests SET status='denied', notes=$1 WHERE id=$2;`;
+    const values = [notes, idToEdit];
+    pool.query(sqlText, values)
+        .then(response => {
+            pool.query(`UPDATE "user" SET admin=2, notify=true, status='accept' WHERE id=$1`, [userId])
+                .then(response => {
+                    res.sendStatus(200);
+                })
+                .catch(error => {
+                    console.log('error setting admin level', error);
+                })
+        })
+        .catch(error => {
+            console.log('error in editing status', error);
+            res.sendStatus(500);
+        })
 })
 
 module.exports = router;

@@ -14,6 +14,7 @@ import NatureIcon from '@material-ui/icons/Nature';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import VerifiedIcon from '@material-ui/icons/VerifiedUser';
+import BuildIcon from '@material-ui/icons/Build';
 
 const styles = theme => ({
     drawer: {
@@ -34,6 +35,9 @@ const styles = theme => ({
 })
 
 class Sidebar extends Component {
+    componentDidMount = () => {
+        this.props.dispatch({type: 'FETCH_USER'})
+    }
     goHome = () => {
         this.props.history.push('/dashboard');
     }
@@ -48,6 +52,10 @@ class Sidebar extends Component {
 
     handleAdmin = (event) => {
         this.props.history.push('/admin')
+    }
+
+    handleBuild = (event) => {
+        this.props.history.push('/build');
     }
 
     render(){
@@ -73,6 +81,10 @@ class Sidebar extends Component {
                     {this.props.reduxStore.user.admin === 3 ?
                     <ListItem className={classes.logout}>
                         <Button onClick={event => this.handleAdmin(event)}><ListItemIcon><VerifiedIcon className={classes.icons} /></ListItemIcon></Button>
+                    </ListItem>:<></>}
+                    {this.props.reduxStore.user.admin > 1 ?
+                    <ListItem className={classes.icons}>
+                        <Button onClick={event => this.handleBuild(event)}><BuildIcon className={classes.icons} /></Button>
                     </ListItem>:<></>}
                     <ListItem className={classes.logout}>
                             <LogOutButton history={this.props.history} sidebar='yes'/>

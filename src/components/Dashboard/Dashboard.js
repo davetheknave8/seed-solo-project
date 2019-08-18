@@ -108,7 +108,8 @@ class Dashboard extends Component{
   componentDidMount = () => {
     this.props.dispatch({type: 'FETCH_TREES'});
     this.props.dispatch({type: 'FETCH_LESSONS'});
-    this.props.dispatch({type: 'FETCH_LESSON_STATUS'})
+    this.props.dispatch({type: 'FETCH_LESSON_STATUS'});
+    this.props.dispatch({type: 'FETCH_USER_REQUESTS'});
 
   }
 
@@ -130,6 +131,11 @@ class Dashboard extends Component{
     this.setState({newRequest: {name: '', description: '', notes: ''}, submitted: true});
     this.props.dispatch({type: 'ADD_REQUEST', payload: this.state.newRequest})
   }
+
+  handleCloseNotify = (event) => {
+    this.props.dispatch({type: 'EDIT_USER'})
+  }
+
   render(){
     const {classes} = this.props;
     return(
@@ -185,6 +191,15 @@ class Dashboard extends Component{
               </form>
             </Card>
           </div>: <div className={classes.paper} style={{top: '20%', left: '35%'}}><Typography className={classes.reqSub}>Your request was successfully submitted.</Typography><Button className={classes.close} onClick={this.handleClose} variant="contained">Close</Button></div>}
+        </Modal>
+        <Modal
+        open={this.props.user.notify}
+        onClose={this.handleCloseNotify}>
+          <div className={classes.paper} style={{ top: '20%', left: '35%' }}>
+            {this.props.user.status === 'accept' || this.props.user.status === 'deny' ? 
+            <Typography>The status of your tree request(s) has been updated. Please go to the build tool for details.</Typography>
+            : <></>} 
+          </div>
         </Modal>
       </div>
     )

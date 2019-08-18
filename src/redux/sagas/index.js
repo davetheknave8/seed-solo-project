@@ -24,6 +24,14 @@ import getAllTrees from './getAllTrees';
 import getAllUserTrees from './getAllUserTrees';
 import getAllRequests from './getAllRequests';
 import addRequest from './addRequest';
+import editRequestStatus from './editRequestStatus';
+import getUserRequests from './getUserRequests';
+import editUser from './editUser';
+import deleteRequest from './deleteRequest';
+import getCreatorTrees from './getCreatorTrees';
+import createTree from './createTree';
+import deleteTree from './deleteTree';
+import editRequest from './editRequest';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -53,6 +61,14 @@ export default function* rootSaga() {
   yield takeEvery('FETCH_ALL_USER_TREES', getAllUserTrees);
   yield takeEvery('FETCH_ALL_REQUESTS', getAllRequests);
   yield takeEvery('ADD_REQUEST', addRequest);
+  yield takeEvery('EDIT_REQUEST_STATUS', editRequestStatus);
+  yield takeEvery('FETCH_USER_REQUESTS', getUserRequests);
+  yield takeEvery('EDIT_USER', editUser);
+  yield takeEvery('DELETE_REQUEST', deleteRequest);
+  yield takeEvery('FETCH_CREATOR_TREES', getCreatorTrees);
+  yield takeEvery('CREATE_TREE', createTree);
+  yield takeEvery('DELETE_TREE', deleteTree);
+  yield takeEvery('EDIT_REQUEST', editRequest);
   yield all([
     loginSaga(),
     registrationSaga(),

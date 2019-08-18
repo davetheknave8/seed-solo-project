@@ -40,4 +40,17 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/', (req, res) => {
+  const userId = req.user.id;
+  const sqlText = `UPDATE "user" SET notify=false WHERE id=$1;`;
+  pool.query(sqlText, [userId])
+    .then(response => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      console.log('error editing user', error);
+      res.sendStatus(500)
+    })
+})
+
 module.exports = router;

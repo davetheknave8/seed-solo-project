@@ -21,8 +21,8 @@ class MainBranch extends Component {
         const numOfBranches = this.props.tree.subcategory.length
         console.log(numOfBranches)
         console.log(branchNum);
-        const divide = 700 / numOfBranches;
-        let x3 = divide * branchNum
+        const divide = this.props.width / numOfBranches;
+        let x3 = divide * branchNum - 75
         console.log(x3)
         return x3;
     }
@@ -66,7 +66,7 @@ class MainBranch extends Component {
                     }}
                 />
                 {this.state.showName === true?<Text
-                x={200}
+                x={(this.state.x1 - (this.props.width / 3))}
                 y={300}
                 text={this.props.subcategory.name}
                 fontSize={30}

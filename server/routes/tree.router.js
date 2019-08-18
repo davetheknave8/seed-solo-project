@@ -58,7 +58,7 @@ router.get('/user_requests', (req, res) => {
 
 router.get('/lesson', rejectUnauthenticated, (req, res) => {
     const userId = req.user.id;
-    sqlText = `SELECT "user".id as user_id, tree.subject as tree, subcategory."name" as subcategory, lesson.id as lesson_id, lesson."name" as lesson, lesson.completed FROM "user" 	
+    sqlText = `SELECT "user".id as user_id, tree.subject as tree, subcategory."name" as subcategory, lesson.id as lesson_id, lesson."name" as lesson FROM "user" 	
                     JOIN user_tree ON "user".id = user_tree.user_id
                     JOIN tree ON user_tree.tree_id = tree.id
                     JOIN tree_subcategory ON tree.id = tree_subcategory.tree_id
@@ -66,7 +66,7 @@ router.get('/lesson', rejectUnauthenticated, (req, res) => {
                     JOIN subcategory_lesson ON subcategory.id = subcategory_lesson.subcategory_id
                     JOIN lesson ON subcategory_lesson.lesson_id = lesson.id
                     WHERE "user".id = $1
-                    GROUP BY "user".id, lesson."name", lesson.id, tree.subject, subcategory."name", lesson.completed
+                    GROUP BY "user".id, lesson."name", lesson.id, tree.subject, subcategory."name"
                     ORDER BY lesson.id;`
     pool.query(sqlText, [userId])
         .then(response => {
@@ -111,7 +111,7 @@ router.get('/recent', rejectUnauthenticated, (req, res) => {
 })
 
 router.get('/current', rejectUnauthenticated, (req, res) => {
-    const treeId = req.query.id;
+    const treeId = Number(req.query.id);
     const sqlText = `SELECT t.id as tree_id, t.subject,
 	CASE WHEN count(s) = 0 THEN ARRAY[]::jsonb[]
 	ELSE array_agg(s.sub_name) END as subcategory
@@ -279,6 +279,7 @@ router.post('/recent', (req, res) => {
     const values = [recent.user_id, recent.tree_id];
     pool.query(sqlText, values)
         .then(response => {
+            console.log(response);
             res.sendStatus(200);
         })
         .catch(error => {
@@ -322,7 +323,7 @@ router.post('/complete_lesson', (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/tree', (req, res) => {
     console.log(req.body);
     const creatorId = req.body.user_id;
     const subject = req.body.tree_name;
@@ -340,17 +341,75 @@ router.post('/', (req, res) => {
         })
 })
 
+router.post('/subcategory', (req, res) => {
+    console.log(req.body);
+    const subName = req.body.name;
+    const treeId = req.body.treeId;
+    const sqlText = `INSERT INTO subcategory(name)
+                        VALUES($1)
+                        RETURNING id`
+    pool.query(sqlText, [subName])
+        .then(response => {
+            const subCatId = response.rows[0].id;
+            pool.query(`INSERT INTO tree_subcategory(tree_id, subcategory_id)
+                            VALUES($1, $2)`, [treeId, subCatId])
+                .then(response => {
+                    res.sendStatus(200)
+                })
+                .catch(error => {
+                    console.log('error adding into tree_subcategory', error);
+                })
+        })
+        .catch(error => {
+            console.log('error adding into subcategory', error);
+            res.sendStatus(500);
+        })
+})
+
+router.post('/lesson', (req, res) => {
+    console.log(req.body);
+    const lessonName = req.body.name;
+    const video = req.body.video;
+    const body = req.body.body;
+    const subCatId = req.body.subcategoryId;
+    const sqlText = `INSERT INTO lesson(name, video, body)
+                        VALUES($1, $2, $3)
+                        RETURNING id;`;
+    pool.query(sqlText, [lessonName, video, body])
+        .then(response => {
+            const lessonId = response.rows[0].id
+            pool.query(`INSERT INTO subcategory_lesson(subcategory_id, lesson_id)
+                            VALUES($1, $2);`, [subCatId, lessonId])
+                .then(response => {
+                    res.sendStatus(200);
+                })
+                .catch(error => {
+                    console.log('error adding subcategory_lesson', error);
+                })
+        })
+        .catch(error => {
+            console.log('error adding lesson', error);
+        }) 
+
+})
+
 //Delete Routes
 
 router.delete('/delete_tree/:id', (req, res) => {
     const treeId = req.params.id;
-    const sqlText = `DELETE FROM tree WHERE id=$1;`;
+    const sqlText = `DELETE FROM tree_subcategory CASCADE WHERE tree_id=$1;`;
     pool.query(sqlText, [treeId])
         .then(response => {
-            res.sendStatus(200);
+            pool.query(`DELETE FROM tree WHERE id=$1`, [treeId])
+                .then(response => {
+                    res.sendStatus(200);
+                })
+                .catch(error => {
+                    console.log('error deleting tree', error);
+                })
         })
         .catch(error => {
-            console.log('error deleting tree', error);
+            console.log('error deleting tree_subcategory', error);
 
         })
 })
@@ -429,6 +488,32 @@ router.delete('/request/:id', (req, res) => {
             res.sendStatus(200);
         })
         .catch(error => {
+            res.sendStatus(500);
+        })
+})
+
+router.delete('/lesson/:id', (req, res) => {
+    console.log(req.params.id);
+    const lessonId = req.params.id;
+    const sqlText = `DELETE FROM subcategory_lesson WHERE lesson_id=$1;`;
+    pool.query(sqlText, [lessonId])
+        .then(response => {
+            pool.query( `DELETE FROM lesson_status WHERE lesson_id=$1`, [lessonId])
+                .then(response => {
+                    pool.query(`DELETE FROM lesson WHERE id=$1`, [lessonId])
+                        .then(response => {
+                            res.sendStatus(200);
+                        })
+                        .catch(error => {
+                            console.log('error deleting lesson', error);
+                        })
+                })
+                .catch(error => {
+                    console.log('error deleting lesson_status', error);
+                })
+        })
+        .catch(error => {
+            console.log('error deleting lesson', error);
             res.sendStatus(500);
         })
 })

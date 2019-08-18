@@ -19,6 +19,7 @@ import TreeView from '../TreeView/TreeView';
 import Admin from '../Admin/Admin';
 import LessonView from '../LessonView/LessonView';
 import BuildView from '../BuildView/BuildView';
+import CreateView from '../CreateView/CreateView';
 
 import './App.css';
 
@@ -83,6 +84,11 @@ class App extends Component {
             exact
             path="/build"
             component={BuildView}
+            />
+            <ProtectedRoute
+            exact
+            path="/create/:id"
+            component={CreateView}
             />
             {/* If none of the other routes matched, we will show a 404. */}
             <Route render={() => <h1>404</h1>} />

@@ -11,6 +11,20 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import {withStyles}  from '@material-ui/core/styles';
+
+const styles = theme => ({
+    paper: {
+        position: 'absolute',
+        width: theme.spacing.unit * 50,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        outline: 'none',
+        overflow: 'auto',
+        height: '45%'
+    },
+})
+
 
 class BuildView extends Component {
     componentDidMount = () => {
@@ -34,7 +48,7 @@ class BuildView extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.props.reduxStore.creatorTreesReducer ? this.props.reduxStore.creatorTreesReducer.map(tree => <AcceptedListItem tree={tree}/>):<></>}
+                                {this.props.reduxStore.creatorTreesReducer ? this.props.reduxStore.creatorTreesReducer.map(tree => <AcceptedListItem history={this.props.history} tree={tree}/>):<></>}
                             </TableBody>
                         </Table>
                     </Grid>
@@ -61,4 +75,4 @@ const mapReduxStoreToProps = reduxStore => ({
     reduxStore
 })
 
-export default connect(mapReduxStoreToProps)(BuildView);
+export default withStyles(styles)(connect(mapReduxStoreToProps)(BuildView));

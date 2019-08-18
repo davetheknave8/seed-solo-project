@@ -13,6 +13,7 @@ class SearchTreeItem extends Component {
     render(){
         return(
             <>
+            {this.props.tree.status === 'complete' ?
             <TableRow>
                 <TableCell>{this.props.tree.subject}</TableCell>
                 <TableCell>{this.props.tree.description}</TableCell>
@@ -20,6 +21,8 @@ class SearchTreeItem extends Component {
                 <TableCell><Button variant="contained" color="primary" onClick={event => this.handleAdd(event)}>Add Tree</Button></TableCell>
                 :<></>}
             </TableRow>
+            : <></>
+            }
             </>
         )
     }

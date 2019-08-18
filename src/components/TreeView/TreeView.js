@@ -4,6 +4,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import SubcategoryListItem from '../SubcategoryListItem/SubcategoryListItem';
 import MainBranch from '../MainBranch/MainBranch';
 import { Stage, Layer, Line } from 'react-konva';
+import Tree from '../Tree/Tree'
 
 //Material-UI
 import Paper from '@material-ui/core/Paper';
@@ -68,35 +69,7 @@ class TreeView extends Component{
     <Grid container spacing = {0}>
       <Grid item lg={9}>
         <Paper className={classes.treePaper}>
-              <Typography className="trunk">Tree {this.props.match.params.id}</Typography>
-              <ReactReduxContext.Consumer>
-                {({ store }) => (
-              <Stage draggable width={1000} height={565}>
-                <Provider store={store}>
-                <Layer>
-                  <Line
-                  className={"trunk"}
-                  points={this.state.points}
-                  stroke={this.state.trunkColor}
-                  strokeWidth={30}
-                  onClick={event => this.handleClick(event)}
-                  onMouseEnter = {(event) => {
-                    document.body.style.cursor = "pointer";
-                    this.setState({ trunkColor: '#654321'})
-                                      }}
-                  onMouseLeave={(event) => {
-                    document.body.style.cursor = "default";
-                    this.setState({ trunkColor: '#8B4513' })
-                    }}
-                   />
-                  {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) =>
-                    <MainBranch history={this.props.history} tree={this.props.reduxStore.currentTreeReducer} show={this.state.show} key={i} id={i} x2={this.state.x2} y2={this.state.y2} subcategory={subcategory} />
-                  )}
-                </Layer>
-                </Provider>
-              </Stage>
-                )}
-              </ReactReduxContext.Consumer>
+          <Tree id={this.props.match.params.id} history={this.props.history} width={1000} height={565} x={500} y1={600} y2={300}/>
         </Paper>
       </Grid>
       <Grid item lg={2}>

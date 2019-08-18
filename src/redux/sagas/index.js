@@ -32,6 +32,9 @@ import getCreatorTrees from './getCreatorTrees';
 import createTree from './createTree';
 import deleteTree from './deleteTree';
 import editRequest from './editRequest';
+import addSubcategory from './addSubcategory';
+import addLesson from './addLesson';
+import deleteLesson from './deleteLesson';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -69,6 +72,9 @@ export default function* rootSaga() {
   yield takeEvery('CREATE_TREE', createTree);
   yield takeEvery('DELETE_TREE', deleteTree);
   yield takeEvery('EDIT_REQUEST', editRequest);
+  yield takeEvery('ADD_SUBCATEGORY', addSubcategory);
+  yield takeEvery('ADD_LESSON', addLesson);
+  yield takeEvery('DELETE_LESSON', deleteLesson);
   yield all([
     loginSaga(),
     registrationSaga(),

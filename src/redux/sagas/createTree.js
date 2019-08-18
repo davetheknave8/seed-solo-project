@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function* createTree(action){
     try{
-        yield axios.post('/api/tree', action.payload);
+        yield axios.post('/api/tree/tree', action.payload);
         yield put({type: 'FETCH_CREATOR_TREES'})
     }
     catch(error){

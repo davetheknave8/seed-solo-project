@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Line, Text} from 'react-konva';
+import {connect} from 'react-redux';
 
 class LessonBranch extends Component{
     state = {
@@ -7,6 +8,13 @@ class LessonBranch extends Component{
     }
 
     render(){
+        let branchColor = '#8B4513';
+        console.log(this.props.reduxStore.lessonStatusReducer);
+        for(let currentLesson of this.props.reduxStore.lessonStatusReducer){
+            if(currentLesson.lesson_id === this.props.lesson.id){
+                branchColor = 'green';
+            }
+        }
         let x1 = this.props.x1;
         console.log(x1);
         let y1 = this.props.y1;
@@ -32,7 +40,7 @@ class LessonBranch extends Component{
                 <>
                 <Line
                         points={points}
-                        stroke={this.state.lessonColor}
+                        stroke={branchColor}
                         strokeWidth={10}
                         onMouseEnter={(event) => {
                             document.body.style.cursor = "pointer";
@@ -60,4 +68,8 @@ class LessonBranch extends Component{
     }
 }
 
-export default LessonBranch;
+const mapReduxStoreToProps = reduxStore => ({
+    reduxStore
+})
+
+export default connect(mapReduxStoreToProps)(LessonBranch);

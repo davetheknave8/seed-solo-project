@@ -6,7 +6,7 @@ const {rejectUnauthenticated} = require('../modules/authentication-middleware')
 /**
  * GET route template
  */
-router.get('/tree', rejectUnauthenticated, (req, res) => {
+router.get('/tree', (req, res) => {
     const userId = req.user.id;
     sqlText = `SELECT * FROM tree
 	    JOIN user_tree ON tree.id = user_tree.tree_id

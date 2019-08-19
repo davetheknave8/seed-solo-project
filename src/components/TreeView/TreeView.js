@@ -67,14 +67,14 @@ class TreeView extends Component{
   <div className="tree">
     <Sidebar history={this.props.history} />
     <Grid container spacing = {0}>
-      <Grid item lg={9}>
+      <Grid item lg={8}>
         <Paper className={classes.treePaper}>
-          <Tree id={this.props.match.params.id} history={this.props.history} width={1000} height={565} x={500} y1={600} y2={300}/>
+          <Tree id={this.props.match.params.id} history={this.props.history} width={800} height={565} x={400} y1={600} y2={300}/>
         </Paper>
       </Grid>
-      <Grid item lg={2}>
+      <Grid item lg={3}>
         <Paper className={classes.lessonPaper}>
-              {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) => <SubcategoryListItem key={i} subcategory={subcategory}/>)}
+              {this.props.reduxStore.currentTreeReducer.subcategory.map((subcategory, i) => <SubcategoryListItem history={this.props.history} key={i} subcategory={subcategory}/>)}
         </Paper>
       </Grid>
     </Grid>

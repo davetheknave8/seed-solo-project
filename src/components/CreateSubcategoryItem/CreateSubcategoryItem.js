@@ -46,6 +46,11 @@ const styles = theme => ({
     },
     lessons: {
         backgroundColor: '#fefac0'
+    },
+    subLesBtn: {
+        marginTop: '2%',
+        marginLeft: '30%',
+        width: '30%'
     }
 })
 
@@ -73,6 +78,7 @@ class CreateSubcategoryItem extends Component {
     addLesson = (event) => {
         event.preventDefault();
         this.props.dispatch({type: 'ADD_LESSON', payload: this.state.newLesson})
+        this.handleClose();
     }
 
     handleChange = (event, propToChange) => {
@@ -105,7 +111,8 @@ class CreateSubcategoryItem extends Component {
                         <TextField className={classes.input} label="Video URL" onChange={event => this.handleChange(event, 'video')} />
                         <br />
                         <TextField className={classes.body} multiline variant="outlined" rows="20" label="Lesson" onChange={event => this.handleChange(event, 'body')} />
-                        <Button type="submit" className={classes.subLesBtn} variant="conatined" color="primary">Add Lesson</Button>
+                        <br />
+                        <Button type="submit" className={classes.subLesBtn} variant="contained" color="primary">Add Lesson</Button>
                     </form>
                 </div>
             </Modal>

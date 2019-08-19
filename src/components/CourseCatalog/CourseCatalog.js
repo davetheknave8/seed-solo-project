@@ -49,6 +49,10 @@ class CourseCatalog extends Component{
     query: ''
   }
 
+  componentDidMount = () => {
+    this.props.dispatch({ type: 'FETCH_ALL_USER_TREES' })
+  }
+
   handleChange = event => {
     this.setState({query: event.target.value})
     this.props.dispatch({ type: 'FETCH_SEARCH', payload: event.target.value })

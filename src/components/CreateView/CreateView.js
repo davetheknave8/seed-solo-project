@@ -68,6 +68,11 @@ class CreateView extends Component {
         this.setState({show: false})
     }
 
+    handleFinish = () => {
+        this.props.dispatch({type: 'FINISH_TREE', payload: this.props.match.params.id})
+        this.props.history.push('/build');
+    }
+
     render(){
         const {classes} = this.props;
         return(
@@ -81,6 +86,7 @@ class CreateView extends Component {
                         {this.props.reduxStore.currentTreeReducer.subcategory.map(subcategory => <CreateSubcategoryItem treeId={this.props.match.params.id} subcategory={subcategory}/>)}
                         <Button variant="contained" color="primary" onClick={this.openModal}>Add Subcategory <AddIcon /></Button>
                     </div>
+                    {/* <Button onClick={() => this.handleFinish()}>Finish Tree</Button> */}
                 </Grid>
                 <Grid item sm={1}></Grid>
                 <Grid item sm={5}>

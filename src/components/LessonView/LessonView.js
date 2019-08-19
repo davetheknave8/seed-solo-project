@@ -101,6 +101,7 @@ class LessonView extends Component{
                                     </>
                                     :
                                     <></>}
+                                    
                             </ExpansionPanelActions>
                         </ExpansionPanel>
                     </Grid>

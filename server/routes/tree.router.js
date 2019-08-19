@@ -560,4 +560,16 @@ router.put('/status', (req, res) => {
         })
 })
 
+router.put('/finish', (req, res) => {
+    const treeId = req.body.id;
+    console.log(treeId);
+    pool.query(`UPDATE tree SET status='review' WHERE id=$1`, [treeId]) 
+        .then(response => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('error changing tree status to review', error);
+        })
+})
+
 module.exports = router;

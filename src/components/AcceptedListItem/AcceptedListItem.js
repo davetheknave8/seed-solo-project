@@ -50,7 +50,7 @@ class AcceptedListItem extends Component {
                         <Typography className={classes.details}>Description: {this.props.tree.description}</Typography>
                     </ExpansionPanelDetails>
                     <ExpansionPanelActions className={classes.actions}>
-                        <Button variant="contained" size="small" className={classes.button} onClick={this.handleCreate} color="primary">{this.props.tree.status === 'in-progress'? 'Create':'Edit'}</Button>
+                        {this.props.tree.status !== 'review' ? <Button variant="contained" size="small" className={classes.button} onClick={this.handleCreate} color="primary">{this.props.tree.status === 'in-progress'? 'Create':'Edit'}</Button>: <Typography>Your tree is currently being reviewed.</Typography>}
                         <Button variant="contained" size="small" className={classes.button} onClick={event => this.handleDelete(event)} color="secondary">Delete</Button>
                     </ExpansionPanelActions>
                 </ExpansionPanel> 

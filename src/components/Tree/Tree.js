@@ -25,6 +25,11 @@ const styles = theme => ({
     },
     trunk: {
         cursor: 'pointer',
+    },
+    treeName: {
+        textAlign: 'center',
+        fontSize: '1.5em',
+        textDecoration: 'underline'
     }
 })
 
@@ -57,7 +62,7 @@ class Tree extends Component {
         const {classes} = this.props;
         return(
             <>
-              <Typography className="trunk">{this.props.reduxStore.currentTreeReducer.subject}</Typography>
+              <Typography className={classes.treeName}>{this.props.reduxStore.currentTreeReducer.subject}</Typography>
               <ReactReduxContext.Consumer>
                 {({ store }) => (
               <Stage draggable width={this.props.width} height={this.props.height}>

@@ -16,7 +16,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import RequestListItem from '../RequestListItem/RequestListItem';
-
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     request: {
@@ -60,6 +64,33 @@ const styles = theme => ({
     },
     requestTable: {
         width: '100%'
+    },
+    create: {
+        width: '70%',
+        height: '10vh',
+        backgroundColor: 'rgba(254, 250, 192, .65)',
+        float: 'left',
+        marginTop: '30vh'
+    },
+    createBtnContainer: {
+        width: '30%',
+        height: '10vh',
+        backgroundColor: 'rgba(223,237,214,.77)',
+        float: 'right',
+        marginTop: '30vh',
+
+    },
+    createBtn: {
+        backgroundColor: '#4c7a34',
+        color: 'white',
+        marginTop: '20%',
+        marginLeft: '15%'
+    },
+    createTitle: {
+        marginTop: '8%',
+        fontSize: '1.5em',
+        filter: 'blur(.75px)',
+        marginLeft: '3%'
     }
 })
 
@@ -114,9 +145,14 @@ class Admin extends Component {
                             </TableBody>
                         </Table>
                     </div>
-                    <Card className={classes.build}>
-
+                    
+                    <Card className={classes.create}>
+                        <Typography className={classes.createTitle}>Create a New Tree.</Typography>
                     </Card>
+                    <Card className={classes.createBtnContainer}>
+                        <Button variant="contained" size="small" className={classes.createBtn}>Create</Button>
+                    </Card>
+                    
                 </Grid>
             </Grid>
             </div>

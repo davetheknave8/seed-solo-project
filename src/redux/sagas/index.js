@@ -35,7 +35,7 @@ import editRequest from './editRequest';
 import addSubcategory from './addSubcategory';
 import addLesson from './addLesson';
 import deleteLesson from './deleteLesson';
-
+import finishTree from './finishTree';
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
 // This is imported in index.js as rootSaga
@@ -75,6 +75,7 @@ export default function* rootSaga() {
   yield takeEvery('ADD_SUBCATEGORY', addSubcategory);
   yield takeEvery('ADD_LESSON', addLesson);
   yield takeEvery('DELETE_LESSON', deleteLesson);
+  yield takeEvery('FINISH_TREE', finishTree);
   yield all([
     loginSaga(),
     registrationSaga(),

@@ -53,7 +53,7 @@ class UserTreeItem extends Component {
                 treeLessons.push(currentLesson);
             }
         }
-        return (completedLessons.length/treeLessons.length) * 100;
+        return Math.round((completedLessons.length/treeLessons.length) * 100);
     }
     
     render(){

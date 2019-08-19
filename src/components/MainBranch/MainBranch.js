@@ -22,7 +22,7 @@ class MainBranch extends Component {
         console.log(numOfBranches)
         console.log(branchNum);
         const divide = this.props.width / numOfBranches;
-        let x3 = divide * branchNum - 75
+        let x3 = divide * branchNum - 150
         console.log(x3)
         return x3;
     }
@@ -66,10 +66,10 @@ class MainBranch extends Component {
                     }}
                 />
                 {this.state.showName === true?<Text
-                x={(this.state.x1 - (this.props.width / 3))}
-                y={300}
+                x={50}
+                y={0}
                 text={this.props.subcategory.name}
-                fontSize={30}
+                fontSize={20}
                 width={300}
                 fill={'black'}
                 />:<></>}
